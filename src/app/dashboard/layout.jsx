@@ -14,15 +14,15 @@ export const metadata = {
 };
 
 export default async function DashboardLayout({ children }) {
+    const clerkEnabled = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
     const role = await getDashboardRole();
     const canViewConfiguraciones = role !== "basico";
-
-    return (
-        <ClerkProvider>
+    const content = (
         <div className="h-screen w-full overflow-hidden bg-white">
             <div className="flex h-full w-full">
                 {/* Sidebar */}
                 <aside className="hidden md:flex h-screen w-[240px] shrink-0 flex-col bg-gray-900 text-white border-r border-white/[0.06] selection:bg-violet-500/30 font-[family-name:var(--font-inter)]">
+
 
                     {/* ── Brand ── */}
                     <div className="relative px-4 pb-3 pt-4 shrink-0">
@@ -394,6 +394,7 @@ export default async function DashboardLayout({ children }) {
                 </div>
             </div>
         </div>
-        </ClerkProvider>
     );
+
+    return clerkEnabled ? <ClerkProvider>{content}</ClerkProvider> : content;
 }
