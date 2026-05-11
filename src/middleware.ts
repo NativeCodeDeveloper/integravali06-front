@@ -2,13 +2,10 @@
 
 
 
-// frontend/src/middleware.ts
-import { NextResponse, type NextRequest } from 'next/server'
+import { clerkMiddleware } from '@clerk/nextjs/server'
 
-// Middleware liberado: no aplica autenticación ni redirecciones.
-export default function middleware(_req: NextRequest) {
-    return NextResponse.next()
-}
+// Mantiene disponible auth() de Clerk, pero no bloquea ni redirige rutas.
+export default clerkMiddleware(() => {})
 
 export const config = {
     matcher: ['/((?!_next|.*\\..*).*)'],
